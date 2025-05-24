@@ -1,6 +1,7 @@
 # 🤖 Bot do Discord – Assistent Bot
 
 Um bot de Discord feito em JavaScript com Discord.js para Moderar a comunidade do discord, dar boas vindas, e interagir com demais membros.
+Entre outras coisas...
 
 
 
