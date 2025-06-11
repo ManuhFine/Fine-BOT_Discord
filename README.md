@@ -2,6 +2,7 @@
 
 Um bot de Discord feito em JavaScript com Discord.js para Moderar a comunidade do discord, dar boas vindas, e interagir com demais membros.
 Entre outras coisas...
+Você pode se inspirar nessa base, só lembre-se de mudar os detalhes e deixar do seu jeito <3
 
 
 
@@ -36,7 +37,6 @@ Entre outras coisas...
 ├── extras/
 │   └── welcome.js
 ├── deploy-commands.js
-├── cumprimento.json
 ├── package-lock.json
 ├── package.json
 └── README.md
