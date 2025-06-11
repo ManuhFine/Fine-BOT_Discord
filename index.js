@@ -1,14 +1,13 @@
 // Exigir as classes discord.js necessárias
 const { Client, Events, GatewayIntentBits, Collection, EmbedBuilder } = require('discord.js')
 const dotenv = require('dotenv')
+const tickets = require('./extras/ticket');
 dotenv.config()
-const { TOKEN, CLIENT_ID, GUILD_ID   } = process.env;
+const { TOKEN, CLIENT_ID, GUILD_ID } = process.env;
 
 //importação dos comandos
 const fs = require("node:fs")
 const path = require("node:path")
-const commandsPath = path.join(__dirname, "commands")
-const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith(".js"))
 
 // Cria uma nova instância do cliente
 const client = new Client({
@@ -17,16 +16,29 @@ const client = new Client({
 
 client.commands = new Collection()
 
-for (const file of commandFiles){
-    const filePath = path.join(commandsPath, file)
-    const commands = require(filePath)
-    console.log(commands)
-    if ("data" in commands && "execute" in commands){
-        client.commands.set(commands.data.name, commands)
+function carregarComandosDe(pasta) {
+  const caminho = path.join(__dirname, pasta);
+  const arquivos = fs.readdirSync(caminho).filter(file => file.endsWith('.js'));
+
+  for (const file of arquivos) {
+    const filePath = path.join(caminho, file);
+    const comando = require(filePath);
+
+    if ('data' in comando && 'execute' in comando) {
+      if (client.commands.has(comando.data.name)) {
+        console.warn(`⚠️ Comando duplicado: ${comando.data.name}, ignorando...`);
+        continue;
+      }
+      client.commands.set(comando.data.name, comando);
+      console.log(`✅ Comando carregado: ${comando.data.name} (${pasta}/${file})`);
     } else {
-        console.log(`Esse comando em ${filePath} esta com "data" ou "execute" ausente`)
+      console.log(`❌ Comando com erro: ${filePath} está sem "data" ou "execute"`);
     }
+  }
 }
+// Carrega os comandos das pastas
+carregarComandosDe('commands');
+carregarComandosDe('extras');
 
 console.log(client.commands)
 // Quando o cliente estiver pronto, execute este código (apenas uma vez).
@@ -36,7 +48,8 @@ client.on(Events.ClientReady, readyClient => {
 	console.log(`Estou on no discord como ${readyClient.user.tag}`)
 });
 
-//listener de interações
+//listener de interações/Slash commands
+// Verifica se o comando é um comando de chat
 client.on(Events.InteractionCreate, async interaction =>{
     if (!interaction.isChatInputCommand()) return; // Verifique se é um comando de chat
     const command = interaction.client.commands.get(interaction.commandName) 
@@ -53,9 +66,8 @@ client.on(Events.InteractionCreate, async interaction =>{
     }
 })
 
-
 client.on('messageCreate', (msg) => {
-    const cumprimento = require('./cumprimento.json');
+    const cumprimento = require('./extras/cumprimento.json');
     
     if (msg.author.bot) return;
   
@@ -63,6 +75,9 @@ client.on('messageCreate', (msg) => {
       msg.reply(cumprimento[msg.content]);
     }
   });
+
+// 🔗 Registra os eventos do seu módulo
+tickets.register(client);
 
 // Importação dos eventos
 const eventsPath = path.join(__dirname, "extras");
