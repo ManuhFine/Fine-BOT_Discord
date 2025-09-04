@@ -8,8 +8,8 @@ Você pode se inspirar nessa base, só lembre-se de mudar os detalhes e deixar d
 
 ## 🚀 Funcionalidades
 
-- 🔨 Comandos de moderação (ban, kick, mute, delete mgs)
-- 🎲 Comandos divertidos (jogos, memes, piadas)
+- 🔨 Comandos de moderação 
+- 🎲 Comandos divertidos 
 - 💬 Interações com os usuarios
 - ⚙️ Fácil de adicionar
 
@@ -33,9 +33,15 @@ Você pode se inspirar nessa base, só lembre-se de mudar os detalhes e deixar d
 │   ├── clear.js
 │   ├── info.js
 │   ├── regras.js
-│   └── reload.js
-├── extras/
+├── eventos/
 │   └── welcome.js
+│   └── registroEmbed.js
+│   └── registro.js
+│   └── cumprimento.json
+├── extras/
+│   └── ticket.js
+├── handlers/
+│   └── loadEvents.js
 ├── deploy-commands.js
 ├── package-lock.json
 ├── package.json
