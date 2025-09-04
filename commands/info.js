@@ -12,7 +12,7 @@ module.exports = {
         const hasRole = allowedRoles.some(roleId => member.roles.cache.has(roleId));
             if (!hasRole) {
                 await interaction.reply({
-                    content: "Isso não é bem um comando, é mais para o mods deixar o server bonitinho, mas as informações estão na sala <#1349610837488173056> :)",
+                    content: "Isso não é bem um comando, é mais para o mods deixar o server bonitinho, mas as informações estão na sala <#SOBRE> :)",
                     flags: 64
                 });
         }
@@ -36,4 +36,5 @@ module.exports = {
 
         await interaction.reply({ embeds: [exampleEmbed] });
     }
+
 };
