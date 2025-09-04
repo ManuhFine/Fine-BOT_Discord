@@ -4,6 +4,7 @@ const dotenv = require('dotenv')
 const tickets = require('./extras/ticket');
 dotenv.config()
 const { TOKEN, CLIENT_ID, GUILD_ID } = process.env;
+const { loadEvents } = require("./handlers/loadEvents");
 
 //importação dos comandos
 const fs = require("node:fs")
@@ -67,7 +68,7 @@ client.on(Events.InteractionCreate, async interaction =>{
 })
 
 client.on('messageCreate', (msg) => {
-    const cumprimento = require('./extras/cumprimento.json');
+    const cumprimento = require('./eventos/cumprimento.json');
     
     if (msg.author.bot) return;
   
@@ -80,7 +81,7 @@ client.on('messageCreate', (msg) => {
 tickets.register(client);
 
 // Importação dos eventos
-const eventsPath = path.join(__dirname, "extras");
+const eventsPath = path.join(__dirname, "eventos");
 const eventFiles = fs.readdirSync(eventsPath).filter(file => file.endsWith(".js"));
 
 for (const file of eventFiles) {
